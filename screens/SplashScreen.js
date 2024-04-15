@@ -13,6 +13,7 @@ import {
 import Svg, { G, Path, Defs, ClipPath, Rect } from "react-native-svg";
 import { Ionicons } from "@expo/vector-icons";
 import LottieView from "lottie-react-native";
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const SplashScreen = ({ navigation }) => {
   const width = new Animated.Value(100);
@@ -37,8 +38,13 @@ const SplashScreen = ({ navigation }) => {
       ).start();
     },2000);
     
-    const timer = setTimeout(() => {
+    const timer = setTimeout(async () => {
+      const value = await AsyncStorage.getItem('userModel');
+      if (value !== null) {
       navigation.replace('Home');
+      } else {
+        navigation.replace('Signup');
+      }
     }, 4000);
     return () => clearTimeout(timer);
   }, [navigation]);

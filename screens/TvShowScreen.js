@@ -15,7 +15,7 @@ import { NEATFLIX_API_KEY } from "@env";
 import { Url } from "../Constants/Url";
 import ListView from "../Components/ListView";
 
-const TvShowScreen = () => {
+const TvShowScreen = ({navigation}) => {
   const [popular, setPopular] = useState([]);
   const [trending,setTrending] = useState([]);
   const [loading, setLoading] = useState(true);

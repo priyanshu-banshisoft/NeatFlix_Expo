@@ -5,7 +5,7 @@ import MovieScreen from "./MovieScreen";
 import { Svg, Path } from "react-native-svg";
 import { Ionicons } from "@expo/vector-icons";
 import TvShowScreen from "./TvShowScreen";
-
+import AsyncStorage from '@react-native-async-storage/async-storage'
 
 const renderScene = SceneMap({
   first: MovieScreen,
@@ -29,11 +29,13 @@ const HomeScreen = ({ navigation }) => {
         }}
       >
         <View style={{ flexDirection: "row",width:'100%',justifyContent:'space-between'}}>
+        
           <Svg
             height={34}
             width={34}
             viewBox="0 0 34 34"
             xmlns="http://www.w3.org/2000/svg"
+            onPress={()=> { navigation.openDrawer();}}
           >
             <Path
               fill="#ffffff"
