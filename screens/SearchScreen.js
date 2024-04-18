@@ -44,7 +44,6 @@ const SearchScreen = ({ navigation }) => {
           ...genreResponse.data.genres,
           ...genreResponseTv.data.genres,
         ]);
-        // setGenres([...genre, ...genreResponseTv.data.genres]);
       }
     } catch (error) {
       console.log(error);
@@ -154,6 +153,15 @@ const SearchScreen = ({ navigation }) => {
             data={searchResponse}
             keyExtractor={(item) => item.id.toString()}
             renderItem={({ item }) => (
+              <TouchableOpacity
+              activeOpacity={1}
+              onPress={() => {
+                navigation.navigate("ShowDetails", {
+                  item: item.id,
+                  type: item.media_type,
+                });
+              }}
+            >
               <View
                 style={{
                   margin: 5,
@@ -237,6 +245,7 @@ const SearchScreen = ({ navigation }) => {
                   />
                 </View>
               </View>
+              </TouchableOpacity>
             )}
           />
         )}

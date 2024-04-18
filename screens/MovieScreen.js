@@ -18,7 +18,7 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 import { Ionicons } from "@expo/vector-icons";
 import { Video, ResizeMode } from "expo-av";
 import { WebView } from "react-native-webview";
-import {useNavigation} from '@react-navigation/native';
+import { useNavigation } from "@react-navigation/native";
 
 const MovieScreen = () => {
   const navigation = useNavigation();
@@ -29,25 +29,6 @@ const MovieScreen = () => {
   const [toprated, setToprated] = useState([]);
   const [nowplaying, setNowPlaying] = useState([]);
   const [upcoming, setUpcoming] = useState([]);
-  const [visible, setVisible] = useState(false);
-  const [video, setVideo] = useState([]);
-  const [vid, setVid] = useState("");
-
-  const videoFetchData = async (id) => {
-    try {
-      const videoResponse = await axios.get(
-        `${Url.BASE_URL}movie/${id}/videos?api_key=${NEATFLIX_API_KEY}`
-      );
-      if (videoResponse.status === 200) {
-        // console.log(videoResponse.data.results);
-        setVideo(videoResponse.data.results);
-        setVid(videoResponse.data.results.map((item)=> {return item.type == 'Trailer'}));
-        setVisible(true);
-      }
-    } catch (err) {
-      console.log(err);
-    }
-  };
 
   useEffect(() => {
     fetchData();
@@ -104,37 +85,6 @@ const MovieScreen = () => {
   };
   return (
     <ScrollView>
-      <Modal visible={visible} animationType="fade" transparent={true}>
-        <View
-          style={{
-            justifyContent: "center",
-            height: "100%",
-            width: "100%",
-            backgroundColor: "rgba(0, 0, 0, 0.5)",
-          }}
-        >
-          <Ionicons
-            name="close"
-            style={{ alignSelf: "flex-end", justifyContent: "flex-end",marginEnd:50 }}
-            color={'white'}
-            size={24}
-            onPress={()=>setVisible(false)}
-          />
-          <View style={{width:320,height:200,justifyContent:'center',alignSelf:'center'}}>
-            <WebView
-              style={{
-                alignSelf: "center",
-                justifyContent: "center",
-                width: 320,
-                height: 200,
-              }}
-              source={{
-                uri: `https://www.youtube.com/embed/${vid}`,
-              }}
-            />
-          </View>
-        </View>
-      </Modal>
       <View style={styles.container}>
         <View
           style={{
@@ -194,10 +144,13 @@ const MovieScreen = () => {
                     keyExtractor={(item) => item.id.toString()}
                     renderItem={({ item }) => (
                       <TouchableOpacity
+                        activeOpacity={1}
                         style={{ marginHorizontal: 5 }}
                         onPress={() => {
-                          navigation.navigate('ShowDetails',{item: item.id,type:'Movie'});
-                          //videoFetchData(item.id);
+                          navigation.navigate("ShowDetails", {
+                            item: item.id,
+                            type: "movie",
+                          });
                         }}
                       >
                         <Image
@@ -223,10 +176,10 @@ const MovieScreen = () => {
                     )}
                   />
                 </View>
-                <ListView title="Popular" item={popular} />
-                <ListView title="Top Rated" item={toprated} />
-                <ListView title="Now Playing" item={nowplaying} />
-                <ListView title="Upcoming" item={upcoming} />
+                <ListView title="Popular" item={popular} type="movie" />
+                <ListView title="Top Rated" item={toprated} type="movie"/>
+                <ListView title="Now Playing" item={nowplaying} type="movie"/>
+                <ListView title="Upcoming" item={upcoming} type="movie" />
               </View>
             )}
           </View>

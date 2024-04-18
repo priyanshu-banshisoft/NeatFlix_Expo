@@ -13,9 +13,11 @@ import axios from "axios";
 import { Fonts } from "../Components/Fonts";
 import { NEATFLIX_API_KEY } from "@env";
 import { Url } from "../Constants/Url";
+import { useNavigation } from "@react-navigation/native";
 import ListView from "../Components/ListView";
 
-const TvShowScreen = ({navigation}) => {
+const TvShowScreen = () => {
+  const navigation = useNavigation();
   const [popular, setPopular] = useState([]);
   const [trending,setTrending] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -121,6 +123,16 @@ const TvShowScreen = ({navigation}) => {
                   data={trending}
                   keyExtractor={(item) => item.id.toString()}
                   renderItem={({ item }) => (
+                    <TouchableOpacity
+                        activeOpacity={1}
+                        style={{ marginHorizontal: 5 }}
+                        onPress={() => {
+                          navigation.navigate("ShowDetails", {
+                            item: item.id,
+                            type: "tv",
+                          });
+                        }}
+                      >
                     <View style={{ marginHorizontal: 5 }}>
                       <Image
                         source={{
@@ -133,12 +145,13 @@ const TvShowScreen = ({navigation}) => {
                         {item.name}
                       </Text>
                     </View>
+                    </TouchableOpacity>
                   )}
                 />
               </View>
-              <ListView title="Popular" item={popular} />
-              <ListView title="Top Rated" item={toprated} />
-              <ListView title="Now Playing" item={nowplaying} />
+              <ListView title="Popular" item={popular} type="tv"/>
+              <ListView title="Top Rated" item={toprated} type="tv"/>
+              <ListView title="Now Playing" item={nowplaying} type="tv"/>
             </View>
           )}
         </View>

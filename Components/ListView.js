@@ -1,8 +1,11 @@
 import React from "react";
-import { View, Text, FlatList, Image } from "react-native";
+import { View, Text, FlatList, Image, TouchableOpacity } from "react-native";
 import { Url } from "../Constants/Url";
+import { useNavigation } from "@react-navigation/native";
 
-const ListView = ({title,item}) => {
+
+const ListView = ({title,item,type}) => {
+  const navigation = useNavigation();
   return (
     <View>
       <Text
@@ -20,6 +23,16 @@ const ListView = ({title,item}) => {
         data={item}
         keyExtractor={(item) => item.id.toString()}
         renderItem={({ item }) => (
+          <TouchableOpacity
+          activeOpacity={1}
+          style={{ marginHorizontal: 5 }}
+          onPress={() => {
+            navigation.navigate("ShowDetails", {
+              item: item.id,
+              type: type,
+            });
+          }}
+        >
           <View style={{ marginHorizontal: 5 }}>
             <Image
               source={{
@@ -28,6 +41,7 @@ const ListView = ({title,item}) => {
               style={{ width: 140, height: 240, borderRadius: 10 }}
             />
           </View>
+          </TouchableOpacity>
         )}
       />
     </View>

@@ -9,7 +9,6 @@ import { loadFonts } from './Components/Fonts';
 import SignUpPage from './screens/SignUpPage';
 import DrawerHandler from './screens/DrawerHandle';
 import ShowDetailsScreen from './screens/ShowDetailsScreen';
-import MovieScreen from './screens/MovieScreen';
 
 const Stack = createNativeStackNavigator();
 
